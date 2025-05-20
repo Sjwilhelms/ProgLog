@@ -22,6 +22,12 @@ cd your-project-name
 
 ### 2. Create a virtual environment
 
+In VS code you will need to use this code before you can set up the virtual environment
+
+```bash
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+```
+
 ```bash
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
