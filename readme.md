@@ -126,5 +126,5 @@ update_remote.bat https://github.com/username/your-repo-name.git
 
 **For UNIX/Linux:**
 ```bash
-python update_remote.py https://github.com/username/your-repo-name.git
+.\update_remote.py https://github.com/username/your-repo-name.git
 ```
