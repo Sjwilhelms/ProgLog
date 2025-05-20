@@ -52,6 +52,19 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
+### 6.1 Creating Static Directories
+
+The project expects certain static directories to exist. Create them using:
+
+```bash
+# Create static directories
+mkdir -p static/css static/js static/images
+
+# Create basic files
+echo "/* Custom styles */" > static/css/style.css
+echo "// Project scripts" > static/js/main.js
+```
+
 ### 7. Create a site object
 
 ```bash
