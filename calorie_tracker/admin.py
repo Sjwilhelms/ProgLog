@@ -19,7 +19,7 @@ class FoodLogAdmin(admin.ModelAdmin):
         ('Basic Information', {
             'fields': ('user', 'timestamp', 'meal_name', 'meal_type')
         }),
-        ('Workout Details', {
+        ('Food Details', {
             'fields': ('meal_desc', 'calories_in',),
             'classes': ('collapse',)
         })

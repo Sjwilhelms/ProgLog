@@ -10,7 +10,7 @@ from datetime import timedelta
 
 class BaseLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    timestamp = models.DateTimeField()
+    timestamp = models.DateTimeField(default=timezone.now)
 
     class Meta:
         abstract = True
