@@ -32,7 +32,10 @@ url_patterns = [
 
     path('cardio/', CardioDayView.as_view(), name='cardio_list'),
     path('cardio/add', CardioCreateView.as_view(), name='add_cardio'),
-    path('cardio//<int:pk>/', CardioDetailView.as_view(), name='cardio_detail'),
+    path(
+        'cardio//<int:pk>/',
+        CardioDetailView.as_view(),
+        name='cardio_detail'),
     path(
         'cardio/calendar-week',
         CardioCalendarWeekView.as_view(),
