@@ -10,20 +10,22 @@ from datetime import timedelta
 
 class BaseLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    time_stamp = models.DateTimeField()
+    timestamp = models.DateTimeField()
 
     class Meta:
         abstract = True
         indexes = [
-            models.Index(fields=['user', 'time_stamp'])
+            models.Index(fields=['user', 'timestamp'])
         ]
+
+    # class methods for totalling calories for day and weeks
 
     @classmethod
     def _total_for_day(cls, user, field_name, date=None):
         date = date or timezone.now().date()
         return (
             cls.objects
-            .filter(user=user, time_stamp__date=date)
+            .filter(user=user, timestamp__date=date)
             .aggregate(total=Sum(field_name))['total']
             or 0
         )
@@ -36,7 +38,7 @@ class BaseLog(models.Model):
             cls.objects
             .filter(
                 user=user,
-                time_stamp__date__range=(start_date, reference_date)
+                timestamp__date__range=(start_date, reference_date)
                 )
             .aggregate(total=Sum(field_name))['total']
             or 0
@@ -53,10 +55,33 @@ class BaseLog(models.Model):
             cls.objects
             .filter(
                 user=user,
-                time_stamp__date__range=(start_of_week, end_of_week))
+                timestamp__date__range=(start_of_week, end_of_week))
             .aggregate(total=Sum(field_name))['total']
             or 0
         )
+
+    # queryset methods for the views
+
+    @classmethod
+    def logs_for_day(cls, user, date=None):
+        date = date or timezone.now().date()
+        return cls.objects.filter(user=user, timestamp__date=date)
+
+    @classmethod
+    def logs_for_rolling_week(cls, user, reference_date=None):
+        reference_date = reference_date or timezone.now().date()
+        start_date = reference_date - timedelta(days=6)
+        return cls.objects.filter(user=user, timestamp__date__range=(
+            start_date, reference_date))
+
+    @classmethod
+    def logs_for_calendar_week(cls, user, reference_date=None):
+        reference_date = reference_date or timezone.now().date()
+        start_of_week = reference_date - timedelta(
+            days=reference_date.weekday())
+        end_of_week = start_of_week + timedelta(days=6)
+        return cls.objects.filter(user=user, timestamp__date__range=(
+            start_of_week, end_of_week))
 
 
 class FoodLog(BaseLog):
@@ -80,7 +105,7 @@ class FoodLog(BaseLog):
     def __str__(self):
         return (
             f"{self.user} -"
-            f"{self.time_stamp:%Y-%m-%d %H:%M} -"
+            f"{self.timestamp:%Y-%m-%d %H:%M} -"
             f"{self.meal_name} -"
             f"{self.meal_type} -"
             f"{self.calories_in}"
@@ -110,7 +135,7 @@ class CardioLog(BaseLog):
     def __str__(self):
         return (
             f"{self.user} -"
-            f"{self.time_stamp:%Y-%m-%d %H:%M} -"
+            f"{self.timestamp:%Y-%m-%d %H:%M} -"
             f"{self.cardio_name} -"
             f"{self.calories_out}"
         )

@@ -7,17 +7,17 @@ from .models import FoodLog, CardioLog
 @admin.register(FoodLog)
 class FoodLogAdmin(admin.ModelAdmin):
     list_display = [
-        'user', 'time_stamp', 'meal_name', 'meal_type', 'calories_in'
+        'user', 'timestamp', 'meal_name', 'meal_type', 'calories_in'
     ]
-    list_filter = ['meal_type', 'time_stamp', 'user']
+    list_filter = ['meal_type', 'timestamp', 'user']
     search_fields = ['meal_name', 'user__username', 'cardio_desc']
-    readonly_fields = ['time_stamp']
-    ordering = ['-time_stamp']
-    date_hierarchy = 'time_stamp'
+    readonly_fields = ['timestamp']
+    ordering = ['-timestamp']
+    date_hierarchy = 'timestamp'
 
     fieldsets = (
         ('Basic Information', {
-            'fields': ('user', 'time_stamp', 'meal_name', 'meal_type')
+            'fields': ('user', 'timestamp', 'meal_name', 'meal_type')
         }),
         ('Workout Details', {
             'fields': ('meal_desc', 'calories_in',),
@@ -32,17 +32,17 @@ class FoodLogAdmin(admin.ModelAdmin):
 @admin.register(CardioLog)
 class CardioLogAdmin(admin.ModelAdmin):
     list_display = [
-        'user', 'time_stamp', 'cardio_name', 'duration', 'calories_out'
+        'user', 'timestamp', 'cardio_name', 'duration', 'calories_out'
     ]
-    list_filter = ['time_stamp', 'user']
+    list_filter = ['timestamp', 'user']
     search_fields = ['cardio_name', 'user__username', 'cardio_desc']
-    readonly_fields = ['time_stamp']
-    ordering = ['-time_stamp']
-    date_hierarchy = 'time_stamp'
+    readonly_fields = ['timestamp']
+    ordering = ['-timestamp']
+    date_hierarchy = 'timestamp'
 
     fieldsets = (
         ('Basic Information', {
-            'fields': ('user', 'time_stamp', 'cardio_name')
+            'fields': ('user', 'timestamp', 'cardio_name')
         }),
         ('Workout Details', {
             'fields': ('cardio_desc', 'duration', 'calories_out',),
