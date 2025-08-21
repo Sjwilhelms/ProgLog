@@ -23,12 +23,17 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('', TemplateView.as_view(template_name='home.html'), name='home')
+    path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    path('tracker/', include('calorie_tracker.urls')),
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(
+        settings.STATIC_URL,
+        document_root=settings.STATIC_ROOT)
     # Add Debug Toolbar URLs
     import debug_toolbar
     urlpatterns += [
