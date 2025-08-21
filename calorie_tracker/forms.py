@@ -14,6 +14,8 @@ class FoodForm(forms.ModelForm):
             "calories_in",
         ]
 
+# form for user submitted exercise
+
 
 class CardioForm(forms.ModelForm):
     class Meta:
