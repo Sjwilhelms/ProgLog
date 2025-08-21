@@ -104,7 +104,6 @@ class CardioRollingWeekView(ListView):
             self.request.user)
         return context
 
-
 # Create Views for adding logs with forms
 
 
@@ -116,7 +115,7 @@ class FoodCreateView(CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        messages.success(self.request, "Log added successfully!")
+        messages.success(self.request, "Food Log added successfully!")
         return super().form_valid(form)
 
 
@@ -128,5 +127,5 @@ class CardioCreateView(CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        messages.success(self.request, "Log added successfully!")
+        messages.success(self.request, "Cardio Log added successfully!")
         return super().form_valid(form)
