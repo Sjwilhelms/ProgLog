@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Cardio Logs (Today)</h2>
+
+{% if cardio_logs %}
+    <ul>
+        {% for cardio in cardio_logs %}
+            <li>
+                <a href="{% url 'calorie_tracker:cardio_detail' cardio.pk %}">
+                    {{ cardio.cardio_name }} - {{ cardio.duration }} min ({{ cardio.calories_out }} cal burned)
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No cardio logs for today.</p>
+{% endif %}
+{% endblock %}

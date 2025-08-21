@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Food Logs (Rolling Week)</h2>
+<p>Total Calories: {{ total_calories }}</p>
+<ul>
+{% for food in food_logs %}
+    <li>{{ food.meal_name }} - {{ food.calories_in }} cal ({{ food.timestamp }})</li>
+{% endfor %}
+</ul>
+{% endblock %}

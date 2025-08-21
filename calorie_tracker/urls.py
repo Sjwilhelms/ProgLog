@@ -1,3 +1,4 @@
+from . import views
 from django.urls import path
 from .views import (
     FoodDetailView,
@@ -12,7 +13,10 @@ from .views import (
     CardioCreateView
 )
 
-url_patterns = [
+app_name = 'calorie_tracker'
+
+urlpatterns = [
+
 
     # Food URLS
 
@@ -35,7 +39,7 @@ url_patterns = [
     path(
         'cardio/<int:pk>/',
         CardioDetailView.as_view(),
-        name='cardio_detail/'),
+        name='cardio_detail'),
     path(
         'cardio/week/calendar/',
         CardioCalendarWeekView.as_view(),

@@ -24,7 +24,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
-    path('tracker/', include('calorie_tracker.urls')),
+    path(
+        'tracker/',
+        include(
+            ('calorie_tracker.urls', 'calorie_tracker'),
+            namespace='calorie_tracker')),
+
 ]
 
 if settings.DEBUG:

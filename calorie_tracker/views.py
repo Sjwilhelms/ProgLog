@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from .models import FoodLog, CardioLog
 from .forms import FoodForm, CardioForm
 
+
 # List Views for viewing food logs
 
 

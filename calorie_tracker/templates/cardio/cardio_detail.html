@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Cardio Detail</h2>
+<p><strong>Activity:</strong> {{ cardio_log.cardio_name }}</p>
+<p><strong>Duration:</strong> {{ cardio_log.duration }} minutes</p>
+<p><strong>Calories Burned:</strong> {{ cardio_log.calories_out }}</p>
+<p><strong>Date:</strong> {{ cardio_log.timestamp }}</p>
+<p><strong>Description:</strong> {{ cardio_log.cardio_desc }}</p>
+{% endblock %}

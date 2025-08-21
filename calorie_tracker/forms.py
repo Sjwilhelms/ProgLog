@@ -6,7 +6,7 @@ from django import forms
 
 class FoodForm(forms.ModelForm):
     class Meta:
-        model: FoodLog
+        model = FoodLog
         fields = [
             "meal_name",
             "meal_desc",
@@ -19,7 +19,7 @@ class FoodForm(forms.ModelForm):
 
 class CardioForm(forms.ModelForm):
     class Meta:
-        model: CardioLog
+        model = CardioLog
         fields = [
             "cardio_name",
             "cardio_desc",
