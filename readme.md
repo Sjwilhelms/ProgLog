@@ -1,4 +1,37 @@
-# Django AllAuth Project Template
+# ProgLog
+
+## or Tracking Calorie Inputs and Outputs
+
+### Conceit
+
+Modern people can face historically atypical circumstances: ready access to calories combined with a sedentary lifestyle.  
+
+Someone once told me that diets don't work. That I need to find a way I can live for decades to come. 
+
+Counting calories can be a powerful means for making what one eats and drinks more intentional, making maintaining, losing, or gaining weight easier.  
+
+This project intends to combine the recording and monitoring of calorie input and output in a simple web application.  
+
+A second iteration would extend this functionality to track exercise performance over time.
+
+Future iterations could extend this functionality to track smoking, drinking, recreational/medicinal drug use and hours worked for the purposes of overall self knowledge.
+
+This project is for training and education purposes only and is not intended for medical/scientific use. 
+
+
+
+"And if you gaze long into an abyss, the abyss also gazes into you" - Friedrich Nietzsche
+
+"No phenomenon is a real phenomenon until it is an observed phenomenon" - John Archibald Wheeler
+
+"That which is measured improves. That which is measured and reported improves exponentially." - Karl Pearson
+
+
+
+
+## This project was made with Django AllAuth Project Template
+
+https://github.com/Sjwilhelms/setupProject
 
 A robust Django starter project with django-allauth integration, ready for rapid development.
 
@@ -127,7 +160,7 @@ This template includes scripts to easily update your Git remote repository URL:
 
 **For Windows:**
 ```bash
-update_remote.bat https://github.com/username/your-repo-name.git
+.\update_remote.bat https://github.com/username/your-repo-name.git
 ```
 
 **For UNIX/Linux:**
