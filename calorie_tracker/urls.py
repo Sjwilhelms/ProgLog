@@ -18,13 +18,13 @@ url_patterns = [
 
     path('food/', FoodDayView.as_view(), name='food_list'),
     path('food/add', FoodCreateView.as_view(), name='add_food'),
-    path('food//<int:pk>/', FoodDetailView.as_view(), name='food_detail'),
+    path('food/<int:pk>/', FoodDetailView.as_view(), name='food_detail'),
     path(
-        'food/calendar-week',
+        'food/week/calendar',
         FoodCalendarWeekView.as_view(),
         name='food_calendar_week'),
     path(
-        'food/rolling-week',
+        'food/week/rolling',
         FoodRollingWeekView.as_view(),
         name='food_rolling_week'),
 
@@ -37,11 +37,11 @@ url_patterns = [
         CardioDetailView.as_view(),
         name='cardio_detail'),
     path(
-        'cardio/calendar-week',
+        'cardio/week/calendar',
         CardioCalendarWeekView.as_view(),
         name='cardio_calendar_week'),
     path(
-        'cardio/rolling-week',
+        'cardio/week/rolling',
         CardioRollingWeekView.as_view(),
         name='cardio_rolling_week'),
 ]
