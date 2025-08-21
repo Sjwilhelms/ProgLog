@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
 
     # Your apps
+    'calorie_tracker'
 ]
 
 MIDDLEWARE = [

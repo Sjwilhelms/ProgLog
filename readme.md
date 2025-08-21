@@ -10,13 +10,20 @@ Someone once told me that diets don't work. That I need to find a way I can live
 
 Counting calories can be a powerful means for making what one eats and drinks more intentional, making maintaining, losing, or gaining weight easier.  
 
+### MVP
+
 This project intends to combine the recording and monitoring of calorie input and output in a simple web application.  
+
+### Future Editions
 
 A second iteration would extend this functionality to track exercise performance over time.
 
 Future iterations could extend this functionality to track smoking, drinking, recreational/medicinal drug use and hours worked for the purposes of overall self knowledge.
 
-This project is for training and education purposes only and is not intended for medical/scientific use. 
+### Disclaimer
+
+This project is for training and education purposes only and is not intended for medical/scientific use.  
+
 
 
 
