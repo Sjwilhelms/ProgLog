@@ -1,0 +1,18 @@
+/* style for step by step form submission */
+
+.step {
+    display: none;
+}
+.step.active {
+    display: block;
+}
+.error {
+    color: red;
+    font-size: 0.9em;
+}
+.progress {
+    margin-bottom: 20px;
+}
+button {
+    margin-right: 10px;
+}
