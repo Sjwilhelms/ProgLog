@@ -3,15 +3,28 @@
 <h2>Cardio Logs (Today)</h2>
 
 {% if cardio_logs %}
-    <ul>
+<table>
+    <thead>
+        <tr>
+            <th>Activity</th>
+            <th>Duration</th>
+            <th>Calories</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for cardio in cardio_logs %}
-            <li>
-                <a href="{% url 'calorie_tracker:cardio_detail' cardio.pk %}">
-                    {{ cardio.cardio_name }} - {{ cardio.duration }} min ({{ cardio.calories_out }} cal burned)
-                </a>
-            </li>
+        <tr>
+            <td>{{ cardio.cardio_name }}</td>
+            <td>{{ cardio.duration }} minutes</td>
+            <td>{{ cardio.calories_out }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No cardio logged today</td>
+        </tr>
         {% endfor %}
-    </ul>
+    </tbody>
+</table>
 {% else %}
     <p>No cardio logs for today.</p>
 {% endif %}

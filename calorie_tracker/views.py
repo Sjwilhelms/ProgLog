@@ -5,13 +5,19 @@ from .models import FoodLog, CardioLog
 from .forms import FoodForm, CardioForm
 
 
+# List Views for viewing overview logs
+
+# class OverviewDayView(ListView):
+
+
+
 # List Views for viewing food logs
 
 
 class FoodDetailView(DetailView):
     model = FoodLog
     template_name = 'food/food_detail.html'
-    context_object_name = 'food_log'
+    context_object_name = 'food_logs'
 
     def get_queryset(self):
         return FoodLog.objects.filter(user=self.request.user)
@@ -112,7 +118,7 @@ class FoodCreateView(CreateView):
     model = FoodLog
     form_class = FoodForm
     template_name = 'food/add_food.html'
-    success_url = reverse_lazy('food_list')
+    success_url = reverse_lazy('calorie_tracker:food_day')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -124,7 +130,7 @@ class CardioCreateView(CreateView):
     model = CardioLog
     form_class = CardioForm
     template_name = 'cardio/add_cardio.html'
-    success_url = reverse_lazy('cardio_list')
+    success_url = reverse_lazy('calorie_tracker:cardio_day')
 
     def form_valid(self, form):
         form.instance.user = self.request.user

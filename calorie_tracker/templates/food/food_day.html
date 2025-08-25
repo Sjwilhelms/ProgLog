@@ -1,18 +1,42 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <h2>Food Logs (Today)</h2>
 
 {% if food_logs %}
-    <ul>
+
+<table>
+    <thead>
+        <tr>
+            <th>Meal</th>
+            <th>Type</th>
+            <th>Calories</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for food in food_logs %}
-            <li>
-                <a href="{% url 'calorie_tracker:food_detail' food.pk %}">
-                    {{ food.meal_name }} ({{ food.meal_type }}) - {{ food.calories_in }} cal
-                </a>
-            </li>
+        <tr>
+            <td>{{ food.meal_name }}</td>
+            <td>{{ food.meal_type }}</td>
+            <td>{{ food.calories_in }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No food logged today</td>
+        </tr>
         {% endfor %}
-    </ul>
+    </tbody>
+</table>
+
+
+<ul>
+    {% for food in food_logs %}
+    <li>
+        <a href="{% url 'calorie_tracker:food_detail' food.pk %}">
+            {{ food.meal_name }} ({{ food.meal_type }}) - {{ food.calories_in }}
+            cal
+        </a>
+    </li>
+    {% endfor %}
+</ul>
 {% else %}
-    <p>No food logs for today.</p>
-{% endif %}
-{% endblock %}
+<p>No food logs for today.</p>
+{% endif %} {% endblock %}
