@@ -1,5 +1,8 @@
 {% extends "base.html" %} {% block content %}
 
+<h2>Food Logs (Today)</h2>
+
+{% if food_logs %}
 <table>
     <thead>
         <tr>
@@ -22,6 +25,9 @@
         {% endfor %}
     </tbody>
 </table>
+{% else %}
+<p>No food logs for today.</p>
+{% endif %}
 
 <h2>Cardio Logs (Today)</h2>
 

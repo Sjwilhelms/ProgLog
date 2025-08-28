@@ -26,17 +26,4 @@
     </tbody>
 </table>
 
-
-<ul>
-    {% for food in food_logs %}
-    <li>
-        <a href="{% url 'calorie_tracker:food_detail' food.pk %}">
-            {{ food.meal_name }} ({{ food.meal_type }}) - {{ food.calories_in }}
-            cal
-        </a>
-    </li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>No food logs for today.</p>
 {% endif %} {% endblock %}

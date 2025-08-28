@@ -1,5 +1,7 @@
+from . import views
 from django.urls import path
 from .views import (
+    dashboard_view,
     FoodDetailView,
     FoodDayView,
     FoodCalendarWeekView,
@@ -17,7 +19,7 @@ app_name = 'calorie_tracker'
 urlpatterns = [
     # Overview URLS
 
-    # path('overview/', OverviewDayView.as_view(), name='overview_day'),
+    path('', views.dashboard_view, name='home'),
 
 
     # Food URLS
