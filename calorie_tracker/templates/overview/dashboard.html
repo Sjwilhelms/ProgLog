@@ -1,40 +1,72 @@
-{% extends 'base.html'%}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 
-<div class="summary-card">
-    <h2>Today's Summary</h2>
-    <p>Calories In: {{ total_food_day }} kcal</p>
-    <p>Calories Out: {{ total_burn_day }} kcal</p>
-    <p>
-        Net:
-        <span>
-            {{ net_day }} kcal
-        </span>
-    </p>
-</div>
 
-<div class="summary-card">
-    <h2>This Calendar Week</h2>
-    <p>Calories In: {{ total_food_calendar_week }} kcal</p>
-    <p>Calories Out: {{ total_burn_calendar_week }} kcal</p>
-    <p>
-        Net:
-        <span>
-            {{ net_calendar_week }} kcal
-        </span>
-    </p>
-</div>
+<h2>Calorie Tracker Dashboard</h2>
 
-<div class="summary-card">
-    <h2>This Rolling Week</h2>
-    <p>Calories In: {{ total_food_rolling_week }} kcal</p>
-    <p>Calories Out: {{ total_burn_rolling_week }} kcal</p>
-    <p>
-        Net:
-        <span>
-            {{ net_rolling_week }} kcal
-        </span>
-    </p>
-</div>
+<h3>Today</h3>
 
-{% endblock content %}
+{% if food_logs_day %}
+
+<h4>Food Intake</h4>
+
+<table>
+    <thead>
+        <tr>
+            <th>Meal</th>
+            <th>Type</th>
+            <th>Calories</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for food in food_logs_day %}
+        <tr>
+            <td>{{ food.meal_name }}</td>
+            <td>{{ food.meal_type }}</td>
+            <td>{{ food.calories_in }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No food logged today</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endif %}
+
+{% if cardio_logs_day %}
+
+<h4>Calorie Burn</h4>
+
+<table>
+    <thead>
+        <tr>
+            <th>Activity</th>
+            <th>Duration (mins)</th>
+            <th>Calorie Burn</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cardio in cardio_logs_day %}
+        <tr>
+            <td>{{ cardio.cardio_name }}</td>
+            <td>{{ cardio.duration }}</td>
+            <td>{{ cardio.calories_out }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No cardio logged today</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endif %}
+
+<h3>Weekly Data</h3>
+
+<h4>7 Day History</h4>
+
+<h4>This Week</h4>
+
+{% endblock %}

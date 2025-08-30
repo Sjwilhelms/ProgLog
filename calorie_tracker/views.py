@@ -1,55 +1,36 @@
 from django.contrib import messages
-from django.shortcuts import render
+# from django.shortcuts import render
 from django.views.generic import CreateView, ListView, DetailView, TemplateView
 from django.urls import reverse_lazy
-from django.utils import timezone
+# from django.utils import timezone
 from .models import FoodLog, CardioLog
 from .forms import FoodForm, CardioForm
 
 # dashboard view
 
 
-def dashboard_view(request):
-    user = request.user
-    today = timezone.now().date()
+class DashboardView(TemplateView):
 
-    # day totals
-    total_food_day = FoodLog.total_food_day(user, today)
-    total_burn_day = CardioLog.total_burn_day(user, today)
-    net_day = total_food_day - total_burn_day
+    template_name = 'overview/dashboard.html'
 
-    # rolling week totals
-    total_food_rolling_week = FoodLog.total_food_rolling_week(user)
-    total_burn_rolling_week = CardioLog.total_burn_rolling_week(user)
-    net_rolling_week = total_food_rolling_week - total_burn_rolling_week
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-    # calendar week totals
-    total_food_calendar_week = FoodLog.total_food_calendar_week(user)
-    total_burn_calendar_week = CardioLog.total_burn_calendar_week(user)
-    net_calendar_week = total_food_calendar_week - total_burn_calendar_week
+        # Debug the method calls
+        context['food_logs_day'] = FoodLog.logs_for_day(
+            self.request.user)
+        context['food_logs_rolling_week'] = FoodLog.logs_for_rolling_week(
+            self.request.user)
+        context['food_logs_calendar_week'] = FoodLog.logs_for_calendar_week(
+            self.request.user)
+        context['cardio_logs_day'] = CardioLog.logs_for_day(
+            self.request.user)
+        context['cardio_logs_rolling_week'] = CardioLog.logs_for_rolling_week(
+            self.request.user)
+        context['cardio_logs_calendar_week'] = CardioLog.logs_for_calendar_week(
+            self.request.user)
 
-    food_logs = FoodLog.logs_for_day(user, today)
-    cardio_logs = CardioLog.logs_for_day(user, today)
-
-    context = {
-        # day context
-        "total_food_day": total_food_day,
-        "total_burn_day": total_burn_day,
-        "net_day": net_day,
-
-        "total_food_rolling_week": total_food_rolling_week,
-        "total_burn_rolling_week": total_burn_rolling_week,
-        "net_rolling_week": net_rolling_week,
-
-        "total_food_calendar_week": total_food_calendar_week,
-        "total_burn_calendar_week": total_burn_calendar_week,
-        "net_calendar_week": net_calendar_week,
-
-        "food_logs": food_logs,
-        "cardio_logs": cardio_logs,
-    }
-
-    return render(request, "overview/dashboard.html", context)
+        return context
 
 
 # List Views for viewing overview logs
