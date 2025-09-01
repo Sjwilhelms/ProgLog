@@ -20,10 +20,16 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 
+from calorie_tracker.views import DashboardView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('', TemplateView.as_view(template_name='overview/dashboard.html'), name='home'),
+    path(
+        '',
+        DashboardView.as_view(),
+        name='home'
+        ),
     path(
         'tracker/',
         include(

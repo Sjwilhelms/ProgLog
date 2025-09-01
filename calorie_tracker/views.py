@@ -1,10 +1,19 @@
 from django.contrib import messages
 # from django.shortcuts import render
-from django.views.generic import CreateView, ListView, DetailView, TemplateView
+from django.views.generic import (
+    CreateView,
+    ListView,
+    DetailView,
+    TemplateView)
 from django.urls import reverse_lazy
-# from django.utils import timezone
+from django.utils import timezone
 from .models import FoodLog, CardioLog
 from .forms import FoodForm, CardioForm
+from .services import (
+    net_calorie_day,
+    net_calorie_rolling_week,
+    net_calorie_calendar_week
+)
 
 # dashboard view
 
@@ -16,7 +25,6 @@ class DashboardView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Debug the method calls
         context['food_logs_day'] = FoodLog.logs_for_day(
             self.request.user)
         context['food_logs_rolling_week'] = FoodLog.logs_for_rolling_week(
@@ -28,6 +36,12 @@ class DashboardView(TemplateView):
         context['cardio_logs_rolling_week'] = CardioLog.logs_for_rolling_week(
             self.request.user)
         context['cardio_logs_calendar_week'] = CardioLog.logs_for_calendar_week(
+            self.request.user)
+        context['net_calorie_day'] = net_calorie_day(
+            self.request.user)
+        context['net_calorie_rolling_week'] = net_calorie_rolling_week(
+            self.request.user)
+        context['net_calorie_calendar_week'] = net_calorie_calendar_week(
             self.request.user)
 
         return context

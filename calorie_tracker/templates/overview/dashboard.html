@@ -1,72 +1,81 @@
 {% extends "base.html" %} {% block content %}
 
+<h2>Dashboard</h2>
 
-<h2>Calorie Tracker Dashboard</h2>
+<div class="dashboard-day">
+    <h3>Today</h3>
+    <div class="dashboard-day-intake">
+        <h4>Food Intake</h4>
 
-<h3>Today</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Meal</th>
+                    <th>Type</th>
+                    <th>Calories</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for food in food_logs_day %}
+                <tr>
+                    <td>{{ food.meal_name }}</td>
+                    <td>{{ food.meal_type }}</td>
+                    <td>{{ food.calories_in }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">No food logged today</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-{% if food_logs_day %}
+    <div class="dashboard-day-burn">
+        <h4>Calorie Burn</h4>
 
-<h4>Food Intake</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Activity</th>
+                    <th>Duration (mins)</th>
+                    <th>Burned</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cardio in cardio_logs_day %}
+                <tr>
+                    <td>{{ cardio.cardio_name }}</td>
+                    <td>{{ cardio.duration }}</td>
+                    <td>{{ cardio.calories_out }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">No cardio logged today</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-<table>
-    <thead>
-        <tr>
-            <th>Meal</th>
-            <th>Type</th>
-            <th>Calories</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for food in food_logs_day %}
-        <tr>
-            <td>{{ food.meal_name }}</td>
-            <td>{{ food.meal_type }}</td>
-            <td>{{ food.calories_in }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="3">No food logged today</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <div class="dashboard-day-net">
+        <h4>Net Calories Today</h4>
 
-{% endif %}
+        <div>{{ net_calorie_day }}</div>
+    </div>
+</div>
 
-{% if cardio_logs_day %}
+<div class="dashboard-week">
+    <div class="dashboard-rolling">
+        <h3>This Week</h3>
 
-<h4>Calorie Burn</h4>
+        <div>Net calories {{ net_calorie_rolling_week }}</div>
+    </div>
+    <div class="dashboard-calendar">
+        <h3>Last 7 Days</h3>
 
-<table>
-    <thead>
-        <tr>
-            <th>Activity</th>
-            <th>Duration (mins)</th>
-            <th>Calorie Burn</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for cardio in cardio_logs_day %}
-        <tr>
-            <td>{{ cardio.cardio_name }}</td>
-            <td>{{ cardio.duration }}</td>
-            <td>{{ cardio.calories_out }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="3">No cardio logged today</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-{% endif %}
-
-<h3>Weekly Data</h3>
-
-<h4>7 Day History</h4>
-
-<h4>This Week</h4>
+        <div>Net calories: {{ net_calorie_calendar_week }}</div>
+    </div>
+</div>
 
 {% endblock %}
