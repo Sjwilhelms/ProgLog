@@ -18,7 +18,7 @@
             <tbody>
                 {% for food in food_logs_day %}
                 <tr>
-                    <td>{{ food.meal_name }}</td>
+                    <td><a href="{% url 'calorie_tracker:food_detail' food.pk %}">{{ food.meal_name }}</a></td>
                     <td>{{ food.meal_type }}</td>
                     <td>{{ food.calories_in }}</td>
                 </tr>
@@ -45,7 +45,7 @@
             <tbody>
                 {% for cardio in cardio_logs_day %}
                 <tr>
-                    <td>{{ cardio.cardio_name }}</td>
+                    <td><a href="{% url 'calorie_tracker:cardio_detail' cardio.pk %}">{{ cardio.cardio_name }}</a></td>
                     <td>{{ cardio.duration }}</td>
                     <td>{{ cardio.calories_out }}</td>
                 </tr>
@@ -69,12 +69,12 @@
     <div class="dashboard-rolling">
         <h3>This Week</h3>
 
-        <div>Net calories {{ net_calorie_rolling_week }}</div>
+        <div>Net calories {{ net_calorie_calendar_week }}</div>
     </div>
     <div class="dashboard-calendar">
         <h3>Last 7 Days</h3>
 
-        <div>Net calories: {{ net_calorie_calendar_week }}</div>
+        <div>Net calories: {{ net_calorie_rolling_week }}</div>
     </div>
 </div>
 

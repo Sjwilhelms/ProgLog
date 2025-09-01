@@ -1,5 +1,6 @@
+from django.db.models import Sum
 from django.contrib import messages
-# from django.shortcuts import render
+from django.shortcuts import render
 from django.views.generic import (
     CreateView,
     ListView,
@@ -7,6 +8,7 @@ from django.views.generic import (
     TemplateView)
 from django.urls import reverse_lazy
 from django.utils import timezone
+from datetime import timedelta
 from .models import FoodLog, CardioLog
 from .forms import FoodForm, CardioForm
 from .services import (
@@ -47,17 +49,52 @@ class DashboardView(TemplateView):
         return context
 
 
-# List Views for viewing overview logs
+# fucntional view for viewing a weekly summary table
 
+def weekly_summary(request):
+    user = request.user
+    today = timezone.now().date()
 
-class OverviewDayView(TemplateView):
-    template_name = 'overview/overview_day.html'
+    # Get start and end of current week (Monday to Sunday)
+    start_of_week = today - timedelta(days=today.weekday())
+    days = [start_of_week + timedelta(days=i) for i in range(7)]
+    day_names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['food_logs'] = FoodLog.logs_for_day(self.request.user)
-        context['cardio_logs'] = CardioLog.logs_for_day(self.request.user)
-        return context
+    meal_types = [FoodLog.BREAKFAST, FoodLog.LUNCH, FoodLog.DINNER, FoodLog.SNACK]
+
+    # Prepare data structure
+    table_data = {meal: [] for meal in meal_types}
+    food_totals = []
+    exercise_totals = []
+    net_calories = []
+
+    for day in days:
+        # For each meal type
+        for meal in meal_types:
+            total = (
+                FoodLog.objects.filter(user=user, meal_type=meal, timestamp__date=day)
+                .aggregate(Sum('calories_in'))['calories_in__sum'] or 0
+            )
+            table_data[meal].append(total)
+
+        # Daily totals
+        food_total = FoodLog.total_food_day(user, date=day)
+        exercise_total = CardioLog.total_burn_day(user, date=day)
+        net = food_total - exercise_total
+
+        food_totals.append(food_total)
+        exercise_totals.append(exercise_total)
+        net_calories.append(net)
+
+    context = {
+        "days": day_names,
+        "table_data": table_data,
+        "food_totals": food_totals,
+        "exercise_totals": exercise_totals,
+        "net_calories": net_calories,
+    }
+
+    return render(request, "overview/weekly_summary.html", context)
 
 # List Views for viewing food logs
 

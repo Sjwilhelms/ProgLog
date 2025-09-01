@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<table>
+    <tr>
+        <th>Input</th>
+        {% for day in days %}
+            <th>{{ day }}</th>
+        {% endfor %}
+    </tr>
+    
+    {% for meal, values in table_data.items %}
+    <tr>
+        <td>{{ meal|title }}</td>
+        {% for val in values %}
+            <td>{{ val }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    
+    <tr class="totals">
+        <td>Food Total</td>
+        {% for total in food_totals %}
+            <td>{{ total }}</td>
+        {% endfor %}
+    </tr>
+    
+    <tr class="totals">
+        <td>Exercise Total</td>
+        {% for total in exercise_totals %}
+            <td>{{ total }}</td>
+        {% endfor %}
+    </tr>
+    
+    <tr class="totals net">
+        <td>Net Calories</td>
+        {% for net in net_calories %}
+            <td>{{ net }}</td>
+        {% endfor %}
+    </tr>
+</table>
+
+{% endblock %}

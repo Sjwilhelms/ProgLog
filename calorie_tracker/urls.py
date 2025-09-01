@@ -1,4 +1,5 @@
 from django.urls import path
+from . import views
 from .views import (
     DashboardView,
     FoodDetailView,
@@ -19,7 +20,7 @@ urlpatterns = [
     # Overview URLS
 
     path('', DashboardView.as_view(), name='home'),
-
+    path('weekly-summary/', views.weekly_summary, name='weekly_summary'),
 
     # Food URLS
 
