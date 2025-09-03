@@ -49,9 +49,9 @@ class DashboardView(TemplateView):
         return context
 
 
-# fucntional view for viewing a weekly summary table
+# fucntional view for viewing calendar week summary table
 
-def weekly_summary(request):
+def calendar_week_summary(request):
     user = request.user
     today = timezone.now().date()
 
@@ -60,7 +60,8 @@ def weekly_summary(request):
     days = [start_of_week + timedelta(days=i) for i in range(7)]
     day_names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
-    meal_types = [FoodLog.BREAKFAST, FoodLog.LUNCH, FoodLog.DINNER, FoodLog.SNACK]
+    meal_types = [FoodLog.BREAKFAST, FoodLog.LUNCH,
+                  FoodLog.DINNER, FoodLog.SNACK]
 
     # Prepare data structure
     table_data = {meal: [] for meal in meal_types}
@@ -72,7 +73,8 @@ def weekly_summary(request):
         # For each meal type
         for meal in meal_types:
             total = (
-                FoodLog.objects.filter(user=user, meal_type=meal, timestamp__date=day)
+                FoodLog.objects.filter(
+                    user=user, meal_type=meal, timestamp__date=day)
                 .aggregate(Sum('calories_in'))['calories_in__sum'] or 0
             )
             table_data[meal].append(total)
@@ -94,7 +96,72 @@ def weekly_summary(request):
         "net_calories": net_calories,
     }
 
-    return render(request, "overview/weekly_summary.html", context)
+    return render(request, "overview/calendar_week_summary.html", context)
+
+
+def rolling_week_summary(request):
+    user = request.user
+    today = timezone.now().date()
+
+    days = [today - timedelta(days=i) for i in range(7)]
+
+    day_names = [day.strftime("%a") for day in days]
+
+    meal_types = [FoodLog.BREAKFAST, FoodLog.LUNCH,
+                  FoodLog.DINNER, FoodLog.SNACK]
+
+    table_data = {meal: [] for meal in meal_types}
+    food_totals = []
+    exercise_totals = []
+    net_calories = []
+
+    for day in days:
+        for meal in meal_types:
+            total = (
+                FoodLog.objects.filter(
+                    user=user, meal_type=meal, timestamp__date=day)
+                .aggregate(Sum('calories_in'))['calories_in__sum'] or 0
+            )
+            table_data[meal].append(total)
+
+        food_total = FoodLog.total_food_day(user, date=day)
+        exercise_total = CardioLog.total_burn_day(user, date=day)
+        net = food_total - exercise_total
+
+        food_totals.append(food_total)
+        exercise_totals.append(exercise_total)
+        net_calories.append(net)
+
+        print("Before reversal:")
+        print(f"exercise_totals: {exercise_totals}")
+        print(f"Type of exercise_totals: {type(exercise_totals)}")
+        print(f"Type of exercise_totals[0]: {type(exercise_totals[0])}")
+
+    days.reverse()
+    day_names = [day.strftime("%a") for day in days]
+    food_totals.reverse()
+    exercise_totals.reverse()
+    net_calories.reverse()
+
+    for meal in meal_types:
+        table_data[meal].reverse()
+
+    context = {
+        "days": day_names,
+        "table_data": table_data,
+        "food_totals": food_totals,
+        "exercise_totals": exercise_totals,
+        "net_calories": net_calories,
+    }
+
+    # After all the processing and reversing, add this:
+    print("Debug info:")
+    print(f"food_totals: {food_totals}")
+    print(f"exercise_totals: {exercise_totals}")
+    print(f"Type of exercise_totals[0]: {type(exercise_totals[0])}")
+
+    return render(request, "overview/rolling_week_summary.html", context)
+
 
 # List Views for viewing food logs
 

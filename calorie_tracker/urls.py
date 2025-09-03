@@ -20,7 +20,8 @@ urlpatterns = [
     # Overview URLS
 
     path('', DashboardView.as_view(), name='home'),
-    path('weekly-summary/', views.weekly_summary, name='weekly_summary'),
+    path('calendar-week-summary/', views.calendar_week_summary, name='calendar_week_summary'),
+    path('rolling-week-summary/', views.rolling_week_summary, name='rolling_week_summary'),
 
     # Food URLS
 
