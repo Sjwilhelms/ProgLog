@@ -1,80 +1,96 @@
 {% extends "base.html" %} {% block content %}
+<div class="dashboard">
+    <h2>Dashboard</h2>
 
-<h2>Dashboard</h2>
+    <div class="dashboard-day">
+        <h3>Today</h3>
+        <div class="dashboard-day-intake">
+            <h4>Food Intake</h4>
 
-<div class="dashboard-day">
-    <h3>Today</h3>
-    <div class="dashboard-day-intake">
-        <h4>Food Intake</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Meal</th>
+                        <th>Type</th>
+                        <th>Calories</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for food in food_logs_day %}
+                    <tr>
+                        <td>
+                            <a
+                                href="{% url 'calorie_tracker:food_detail' food.pk %}"
+                                >{{ food.meal_name }}</a
+                            >
+                        </td>
+                        <td>{{ food.meal_type }}</td>
+                        <td>{{ food.calories_in }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3">No food logged today</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Meal</th>
-                    <th>Type</th>
-                    <th>Calories</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for food in food_logs_day %}
-                <tr>
-                    <td><a href="{% url 'calorie_tracker:food_detail' food.pk %}">{{ food.meal_name }}</a></td>
-                    <td>{{ food.meal_type }}</td>
-                    <td>{{ food.calories_in }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="3">No food logged today</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="dashboard-day-burn">
+            <h4>Calorie Burn</h4>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Activity</th>
+                        <th>Duration (mins)</th>
+                        <th>Burned</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cardio in cardio_logs_day %}
+                    <tr>
+                        <td>
+                            <a
+                                href="{% url 'calorie_tracker:cardio_detail' cardio.pk %}"
+                                >{{ cardio.cardio_name }}</a
+                            >
+                        </td>
+                        <td>{{ cardio.duration }}</td>
+                        <td>{{ cardio.calories_out }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3">No cardio logged today</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="dashboard-day-net">
+            <h4>Net Calories Today</h4>
+
+            <div>{{ net_calorie_day }}</div>
+        </div>
     </div>
 
-    <div class="dashboard-day-burn">
-        <h4>Calorie Burn</h4>
+    <div class="dashboard-week">
+        <div class="dashboard-rolling">
+            <!-- these tables are not working correctly right now -->
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Activity</th>
-                    <th>Duration (mins)</th>
-                    <th>Burned</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for cardio in cardio_logs_day %}
-                <tr>
-                    <td><a href="{% url 'calorie_tracker:cardio_detail' cardio.pk %}">{{ cardio.cardio_name }}</a></td>
-                    <td>{{ cardio.duration }}</td>
-                    <td>{{ cardio.calories_out }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="3">No cardio logged today</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+            <h3>This Week</h3>
 
-    <div class="dashboard-day-net">
-        <h4>Net Calories Today</h4>
+            <div>Net calories {{ net_calorie_calendar_week }}</div>
 
-        <div>{{ net_calorie_day }}</div>
-    </div>
-</div>
+            <!-- {% include "partials/week_tables.html" with summary=calendar_week_summary %} -->
+        </div>
+        <div class="dashboard-calendar">
+            <h3>Last 7 Days</h3>
 
-<div class="dashboard-week">
-    <div class="dashboard-rolling">
-        <h3>This Week</h3>
-
-        <div>Net calories {{ net_calorie_calendar_week }}</div>
-    </div>
-    <div class="dashboard-calendar">
-        <h3>Last 7 Days</h3>
-
-        <div>Net calories: {{ net_calorie_rolling_week }}</div>
+            <div>Net calories: {{ net_calorie_rolling_week }}</div>
+            <!-- {% include "partials/week_tables.html" with summary=rolling_week_summary %} -->
+        </div>
     </div>
 </div>
 

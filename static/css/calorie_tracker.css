@@ -1,0 +1,22 @@
+html,
+main{
+
+    overflow-x: hidden;
+    height: 100%;
+    width: 100%;
+}
+
+.dashboard{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.dashboard-week{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

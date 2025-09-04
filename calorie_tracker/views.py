@@ -16,6 +16,10 @@ from .services import (
     net_calorie_rolling_week,
     net_calorie_calendar_week
 )
+from .tables import (
+    get_calendar_week_summary,
+    get_rolling_week_summary
+)
 
 # dashboard view
 
@@ -46,6 +50,11 @@ class DashboardView(TemplateView):
         context['net_calorie_calendar_week'] = net_calorie_calendar_week(
             self.request.user)
 
+        context["rolling_week_summary"] = get_rolling_week_summary(
+            self.request.user)
+        context["calendar_week_summary"] = get_calendar_week_summary(
+            self.request.user)
+
         return context
 
 
@@ -60,8 +69,12 @@ def calendar_week_summary(request):
     days = [start_of_week + timedelta(days=i) for i in range(7)]
     day_names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
-    meal_types = [FoodLog.BREAKFAST, FoodLog.LUNCH,
-                  FoodLog.DINNER, FoodLog.SNACK]
+    meal_types = [
+                FoodLog.BREAKFAST,
+                FoodLog.LUNCH,
+                FoodLog.DINNER,
+                FoodLog.SNACK
+                ]
 
     # Prepare data structure
     table_data = {meal: [] for meal in meal_types}
@@ -107,8 +120,12 @@ def rolling_week_summary(request):
 
     day_names = [day.strftime("%a") for day in days]
 
-    meal_types = [FoodLog.BREAKFAST, FoodLog.LUNCH,
-                  FoodLog.DINNER, FoodLog.SNACK]
+    meal_types = [
+                FoodLog.BREAKFAST,
+                FoodLog.LUNCH,
+                FoodLog.DINNER,
+                FoodLog.SNACK
+                ]
 
     table_data = {meal: [] for meal in meal_types}
     food_totals = []
@@ -132,11 +149,6 @@ def rolling_week_summary(request):
         exercise_totals.append(exercise_total)
         net_calories.append(net)
 
-        print("Before reversal:")
-        print(f"exercise_totals: {exercise_totals}")
-        print(f"Type of exercise_totals: {type(exercise_totals)}")
-        print(f"Type of exercise_totals[0]: {type(exercise_totals[0])}")
-
     days.reverse()
     day_names = [day.strftime("%a") for day in days]
     food_totals.reverse()
@@ -153,12 +165,6 @@ def rolling_week_summary(request):
         "exercise_totals": exercise_totals,
         "net_calories": net_calories,
     }
-
-    # After all the processing and reversing, add this:
-    print("Debug info:")
-    print(f"food_totals: {food_totals}")
-    print(f"exercise_totals: {exercise_totals}")
-    print(f"Type of exercise_totals[0]: {type(exercise_totals[0])}")
 
     return render(request, "overview/rolling_week_summary.html", context)
 
