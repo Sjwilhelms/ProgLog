@@ -83,13 +83,13 @@
 
             <div>Net calories {{ net_calorie_calendar_week }}</div>
 
-            <!-- {% include "partials/week_tables.html" with summary=calendar_week_summary %} -->
+            {% include "overview/calendar_week_summary.html" with summary=calendar_week_summary %}
         </div>
         <div class="dashboard-calendar">
             <h3>Last 7 Days</h3>
 
             <div>Net calories: {{ net_calorie_rolling_week }}</div>
-            <!-- {% include "partials/week_tables.html" with summary=rolling_week_summary %} -->
+            {% include "overview/rolling_week_summary.html" with summary=rolling_week_summary %}
         </div>
     </div>
 </div>

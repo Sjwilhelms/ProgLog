@@ -1,9 +1,10 @@
-{% extends "base.html" %}
-{% block content %}
-<h2>Add Food Log</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save</button>
-</form>
+{% extends "base.html" %} {% block content %}
+<div class="add">
+    <h2>Add Food Log</h2>
+    <form method="post">
+        {% csrf_token %} {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+</div>
+
 {% endblock %}

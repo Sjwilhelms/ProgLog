@@ -50,10 +50,25 @@ class DashboardView(TemplateView):
         context['net_calorie_calendar_week'] = net_calorie_calendar_week(
             self.request.user)
 
-        context["rolling_week_summary"] = get_rolling_week_summary(
-            self.request.user)
-        context["calendar_week_summary"] = get_calendar_week_summary(
-            self.request.user)
+        # Rolling week summary data
+        rolling_data = get_rolling_week_summary(self.request.user)
+        context.update({
+            "rolling_days": rolling_data["days"],
+            "rolling_table_data": rolling_data["table_data"],
+            "rolling_food_totals": rolling_data["food_totals"],
+            "rolling_exercise_totals": rolling_data["exercise_totals"],
+            "rolling_net_calories": rolling_data["net_calories"],
+        })
+
+        # Calendar week summary data
+        calendar_data = get_calendar_week_summary(self.request.user)
+        context.update({
+            "days": calendar_data["days"],
+            "table_data": calendar_data["table_data"],
+            "food_totals": calendar_data["food_totals"],
+            "exercise_totals": calendar_data["exercise_totals"],
+            "net_calories": calendar_data["net_calories"],
+        })
 
         return context
 

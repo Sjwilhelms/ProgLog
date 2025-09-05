@@ -6,7 +6,8 @@ main{
     width: 100%;
 }
 
-.dashboard{
+.dashboard,
+.add{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -15,8 +16,19 @@ main{
     width: 100%;
 }
 
+.dashboard-day{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    height: 50%;
+    width: 50%;
+}
+
 .dashboard-week{
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
+    height: 50%;
+    width: 50%;
 }
