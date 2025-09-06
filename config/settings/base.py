@@ -86,7 +86,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Allauth configuration
 ACCOUNT_LOGIN_METHODS = {'email', 'username'}  # Can use username or email
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']  # Required fields
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # Options: 'none', 'optional', 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'none'  # Options: 'none', 'optional', 'mandatory'
 ACCOUNT_USERNAME_MIN_LENGTH = 4
 
 # Login/logout URLs

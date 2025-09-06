@@ -16,6 +16,8 @@ Counting calories can be a powerful means for making what one eats and drinks mo
 
 This project intends to combine the recording and monitoring of calorie input and output in a simple web application.  
 
+This project will have data model for logging meals and logging cardio, and will extend the user model to include goals and targets.
+
 "That which is measured improves. That which is measured and reported improves exponentially." - Karl Pearsons
 
 ### Future Editions
@@ -29,6 +31,8 @@ Future iterations could extend this functionality to track smoking, drinking, re
 ### Disclaimer
 
 This project is for training and education purposes only and is not intended for medical/scientific use.  
+
+This project will currently omit integration with wearable tech and user's will own their own data.
 
 
 

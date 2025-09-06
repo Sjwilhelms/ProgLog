@@ -1,5 +1,6 @@
 from django.db.models import Sum
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic import (
     CreateView,
@@ -24,12 +25,13 @@ from .tables import (
 # dashboard view
 
 
-class DashboardView(TemplateView):
+class DashboardView(LoginRequiredMixin, TemplateView):
 
     template_name = 'overview/dashboard.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            context = super().get_context_data(**kwargs)
 
         context['food_logs_day'] = FoodLog.logs_for_day(
             self.request.user)
@@ -85,11 +87,11 @@ def calendar_week_summary(request):
     day_names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
     meal_types = [
-                FoodLog.BREAKFAST,
-                FoodLog.LUNCH,
-                FoodLog.DINNER,
-                FoodLog.SNACK
-                ]
+        FoodLog.BREAKFAST,
+        FoodLog.LUNCH,
+        FoodLog.DINNER,
+        FoodLog.SNACK
+    ]
 
     # Prepare data structure
     table_data = {meal: [] for meal in meal_types}
@@ -136,11 +138,11 @@ def rolling_week_summary(request):
     day_names = [day.strftime("%a") for day in days]
 
     meal_types = [
-                FoodLog.BREAKFAST,
-                FoodLog.LUNCH,
-                FoodLog.DINNER,
-                FoodLog.SNACK
-                ]
+        FoodLog.BREAKFAST,
+        FoodLog.LUNCH,
+        FoodLog.DINNER,
+        FoodLog.SNACK
+    ]
 
     table_data = {meal: [] for meal in meal_types}
     food_totals = []
