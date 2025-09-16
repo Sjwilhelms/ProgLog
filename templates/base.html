@@ -2,16 +2,16 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Calorie Tracker</title>
+        <title>Calorie Tracker - {{ page_title }}</title>
         <link rel="stylesheet" href="{% static 'css/calorie_tracker.css' %}">
     </head>
     <body>
         <header>
-            <h1>Calorie Tracker</h1>
+            <h1>{{ page_title }}</h1>
             <nav>
                 <a href="{% url 'calorie_tracker:home' %}">Dashboard</a> |
-                <a href="{% url 'calorie_tracker:calendar_week_summary' %}">Weekly Summary</a> |
-                <a href="{% url 'calorie_tracker:rolling_week_summary' %}">Weekly Summary</a> |
+                <!-- <a href="{% url 'calorie_tracker:calendar_week_summary' %}">Weekly Summary</a> |
+                <a href="{% url 'calorie_tracker:rolling_week_summary' %}">Weekly Summary</a> | -->
                 <a href="{% url 'calorie_tracker:add_food' %}">Add Food</a> |
                 <a href="{% url 'calorie_tracker:add_cardio' %}">Add Cardio</a> |
                 <!-- <a href="{% url 'calorie_tracker:food_day' %}">Food Logs</a> |

@@ -33,18 +33,26 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         if self.request.user.is_authenticated:
             context = super().get_context_data(**kwargs)
 
+            # set page title
+            context['page_title'] = 'Dashboard'
+
+        # food logs
         context['food_logs_day'] = FoodLog.logs_for_day(
             self.request.user)
         context['food_logs_rolling_week'] = FoodLog.logs_for_rolling_week(
             self.request.user)
         context['food_logs_calendar_week'] = FoodLog.logs_for_calendar_week(
             self.request.user)
+        
+        # cardio logs
         context['cardio_logs_day'] = CardioLog.logs_for_day(
             self.request.user)
         context['cardio_logs_rolling_week'] = CardioLog.logs_for_rolling_week(
             self.request.user)
         context['cardio_logs_calendar_week'] = CardioLog.logs_for_calendar_week(
             self.request.user)
+
+        # net calories
         context['net_calorie_day'] = net_calorie_day(
             self.request.user)
         context['net_calorie_rolling_week'] = net_calorie_rolling_week(
@@ -55,21 +63,25 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         # Rolling week summary data
         rolling_data = get_rolling_week_summary(self.request.user)
         context.update({
-            "rolling_days": rolling_data["days"],
-            "rolling_table_data": rolling_data["table_data"],
-            "rolling_food_totals": rolling_data["food_totals"],
-            "rolling_exercise_totals": rolling_data["exercise_totals"],
-            "rolling_net_calories": rolling_data["net_calories"],
+            'rolling': {
+                "rolling_days": rolling_data["days"],
+                "rolling_table_data": rolling_data["table_data"],
+                "rolling_food_totals": rolling_data["food_totals"],
+                "rolling_exercise_totals": rolling_data["exercise_totals"],
+                "rolling_net_calories": rolling_data["net_calories"],
+            }
         })
 
         # Calendar week summary data
         calendar_data = get_calendar_week_summary(self.request.user)
         context.update({
-            "days": calendar_data["days"],
-            "table_data": calendar_data["table_data"],
-            "food_totals": calendar_data["food_totals"],
-            "exercise_totals": calendar_data["exercise_totals"],
-            "net_calories": calendar_data["net_calories"],
+            'calendar': {
+                "days": calendar_data["days"],
+                "table_data": calendar_data["table_data"],
+                "food_totals": calendar_data["food_totals"],
+                "exercise_totals": calendar_data["exercise_totals"],
+                "net_calories": calendar_data["net_calories"],
+                }
         })
 
         return context
@@ -119,6 +131,7 @@ def calendar_week_summary(request):
         net_calories.append(net)
 
     context = {
+        "week_type": "Calendar Week",
         "days": day_names,
         "table_data": table_data,
         "food_totals": food_totals,
@@ -176,6 +189,7 @@ def rolling_week_summary(request):
         table_data[meal].reverse()
 
     context = {
+        "week_type": "Rolling Week",
         "days": day_names,
         "table_data": table_data,
         "food_totals": food_totals,
@@ -294,6 +308,11 @@ class FoodCreateView(CreateView):
     form_class = FoodForm
     template_name = 'food/add_food.html'
     success_url = reverse_lazy('calorie_tracker:home')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = "Log Meal"
+        return context
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -305,7 +324,13 @@ class CardioCreateView(CreateView):
     model = CardioLog
     form_class = CardioForm
     template_name = 'cardio/add_cardio.html'
+    page_title = 'Log Cardio    '
     success_url = reverse_lazy('calorie_tracker:home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = "Log Cardio"
+        return context
 
     def form_valid(self, form):
         form.instance.user = self.request.user

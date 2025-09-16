@@ -1,11 +1,9 @@
 {% extends "base.html" %} {% block content %}
 <div class="dashboard">
-    <h2>Dashboard</h2>
-
     <div class="dashboard-day">
-        <h3>Today</h3>
+        <h2>Today</h2>
         <div class="dashboard-day-intake">
-            <h4>Food Intake</h4>
+            <h3>Food Intake</h3>
 
             <table>
                 <thead>
@@ -37,7 +35,7 @@
         </div>
 
         <div class="dashboard-day-burn">
-            <h4>Calorie Burn</h4>
+            <h3>Calorie Burn</h3>
 
             <table>
                 <thead>
@@ -79,17 +77,20 @@
         <div class="dashboard-rolling">
             <!-- these tables are not working correctly right now -->
 
-            <h3>This Week</h3>
+            <h3>Last 7 Days</h3>
 
             <div>Net calories {{ net_calorie_calendar_week }}</div>
 
-            {% include "overview/calendar_week_summary.html" with summary=calendar_week_summary %}
+            {% include "overview/rolling_week_summary.html" with week_type="Last 7 Days (Rolling Week)" days=rolling.rolling_days table_data=rolling.rolling_table_data food_totals=rolling.rolling_food_totals exercise_totals=rolling.rolling_exercise_totals net_calories=rolling.rolling_net_calories %}
+
         </div>
         <div class="dashboard-calendar">
-            <h3>Last 7 Days</h3>
+            <h3>This Week</h3>
 
             <div>Net calories: {{ net_calorie_rolling_week }}</div>
-            {% include "overview/rolling_week_summary.html" with summary=rolling_week_summary %}
+
+            {% include "overview/calendar_week_summary.html" with week_type="This Week (Calendar Week)" days=calendar.days table_data=calendar.table_data food_totals=calendar.food_totals exercise_totals=calendar.exercise_totals net_calories=calendar.net_calories %}
+
         </div>
     </div>
 </div>
