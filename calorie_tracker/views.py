@@ -43,7 +43,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             self.request.user)
         context['food_logs_calendar_week'] = FoodLog.logs_for_calendar_week(
             self.request.user)
-        
+
         # cardio logs
         context['cardio_logs_day'] = CardioLog.logs_for_day(
             self.request.user)
@@ -81,7 +81,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                 "food_totals": calendar_data["food_totals"],
                 "exercise_totals": calendar_data["exercise_totals"],
                 "net_calories": calendar_data["net_calories"],
-                }
+            }
         })
 
         return context
@@ -308,7 +308,7 @@ class FoodCreateView(CreateView):
     form_class = FoodForm
     template_name = 'food/add_food.html'
     success_url = reverse_lazy('calorie_tracker:home')
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_title'] = "Log Meal"
