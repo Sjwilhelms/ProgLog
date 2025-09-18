@@ -93,6 +93,16 @@
 
         </div>
     </div>
+
+    <div class="dashboard-year">
+        <div class="dashboard-months">
+            <h3>Annual Summary</h3>
+
+            <div>Net calories: {{ summary_stats.net_year }}</div>
+        
+            {% include "overview/yearly_summary.html" with table_data=year.table_data summary_stats=year.summary_stats %}
+        </div>
+    </div>
 </div>
 
 {% endblock %}

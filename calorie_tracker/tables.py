@@ -80,6 +80,52 @@ def get_week_summary(user, start_date, days_count=7, reverse_order=False):
     }
 
 
+def get_year_summary(user, year=None):
+    """
+    Generate summary data for all 12 months in a year
+    """
+    year = year or timezone.now().date().year
+    months = [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec'
+    ]
+
+    food_monthly = []
+    cardio_monthly = []
+    net_monthly = []
+
+    for month in range(1, 13):
+        food_total = FoodLog.total_food_month(user, year, month)
+        cardio_total = CardioLog.total_burn_month(user, year, month)
+        net_total = food_total - cardio_total
+
+        food_monthly.append(food_total)
+        cardio_monthly.append(cardio_total)
+        net_monthly.append(net_total)
+
+    return {
+        "months": months,
+        "food_totals": food_monthly,
+        "exercise_totals": cardio_monthly,
+        "net_calories": net_monthly,
+        "yearly_totals": {
+            'food_year': sum(food_monthly),
+            'cardio_year': sum(cardio_monthly),
+            'net_year': sum(net_monthly),
+        }
+    }
+
+
 def get_calendar_week_summary(user, reference_date=None):
     today = reference_date or timezone.now().date()
     start_of_week = today - timedelta(days=today.weekday())  # Monday

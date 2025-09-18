@@ -1,0 +1,31 @@
+{% block content %}
+<table>
+    <tr>
+        <th></th>
+        {% for month in table_data.months %}
+        <th>{{ month }}</th>
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <td>Food Total</td>
+        {% for total in table_data.food_monthly %}
+        <td>{{ total }}</td>
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <td>Cardio Total</td>
+        {% for total in table_data.exercise_monthly %}
+        <td>{{ total }}</td>
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <td>Net Calories</td>
+        {% for net in table_data.net_monthly %}
+        <td>{{ net }}</td>
+        {% endfor %}
+    </tr>
+</table>
+{% endblock content %}

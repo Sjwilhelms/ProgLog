@@ -1,7 +1,7 @@
 from .models import FoodLog, CardioLog
 from django.utils import timezone
 
-# method for getting net calories
+# methods for getting net calories
 
 
 def net_calorie_day(user, date=None):
@@ -26,3 +26,20 @@ def net_calorie_calendar_week(user, date=None):
     calories_out = CardioLog.total_burn_calendar_week(user, date)
     net_calendar_week = calories_in - calories_out
     return net_calendar_week
+
+
+def net_calorie_month(user, year=None, month=None):
+    year = year or timezone.now().date().year
+    month = month or timezone.now().date().month
+    calories_in = FoodLog.total_food_month(user, year, month)
+    calories_out = CardioLog.total_burn_month(user, year, month)
+    net_month = calories_in - calories_out
+    return net_month
+
+
+def net_calorie_year(user, year=None):
+    year = year or timezone.now().date().year
+    calories_in = FoodLog.total_food_year(user, year)
+    calories_out = CardioLog.total_burn_year(user, year)
+    net_year = calories_in - calories_out
+    return net_year

@@ -15,14 +15,19 @@ from .forms import FoodForm, CardioForm
 from .services import (
     net_calorie_day,
     net_calorie_rolling_week,
-    net_calorie_calendar_week
+    net_calorie_calendar_week,
+    net_calorie_month,
+    net_calorie_year
 )
 from .tables import (
     get_calendar_week_summary,
-    get_rolling_week_summary
+    get_rolling_week_summary,
+    get_year_summary
 )
 
-# dashboard view
+
+# overview/dashboard view
+# the Dashboard View
 
 
 class DashboardView(LoginRequiredMixin, TemplateView):
@@ -81,6 +86,24 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                 "food_totals": calendar_data["food_totals"],
                 "exercise_totals": calendar_data["exercise_totals"],
                 "net_calories": calendar_data["net_calories"],
+            }
+        })
+
+        # month and year summary data
+        year_data = get_year_summary(self.request.user)
+        context.update({
+            'year': {
+                'table_data': {
+                    'months': year_data['months'],
+                    'food_monthly': year_data['food_totals'],
+                    'exercise_monthly': year_data['exercise_totals'],
+                    'net_monthly': year_data['net_calories'],
+                },
+                'summary_stats': {
+                    'food_year': year_data['yearly_totals']['food_year'],
+                    'cardio_year': year_data['yearly_totals']['cardio_year'],
+                    'net_year': year_data['yearly_totals']['net_year'],
+                }
             }
         })
 
@@ -199,6 +222,59 @@ def rolling_week_summary(request):
 
     return render(request, "overview/rolling_week_summary.html", context)
 
+
+def yearly_summary(request, year=None):
+    user = request.user
+    year = year or timezone.now().date().year
+    year = int(year)
+
+    months = [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec'
+    ]
+
+    food_monthly = []
+    cardio_monthly = []
+    net_monthly = []
+
+    for month in range(1, 13):
+        food_total = FoodLog.total_food_month(user, year, month)
+        cardio_total = CardioLog.total_burn_month(user, year, month)
+        net_total = net_calorie_month(user, year, month)
+
+        food_monthly.append(food_total)
+        cardio_monthly.append(cardio_total)
+        net_monthly.append(net_total)
+
+    food_year = FoodLog.total_food_year(user, year)
+    cardio_year = CardioLog.total_burn_year(user, year)
+    net_year = net_calorie_year(user, year)
+
+    context = {
+        'table_data': {
+            'months': months,
+            'food_monthly': food_monthly,
+            'exercise_monthly': cardio_monthly,
+            'net_monthly': net_monthly,
+        },
+        'summary_stats': {
+            'food_year': food_year,
+            'cardio_year': cardio_year,
+            'net_year': net_year,
+        }
+    }
+
+    return render(request, 'overview/yearly_summary.html', context)
 
 # List Views for viewing food logs
 
