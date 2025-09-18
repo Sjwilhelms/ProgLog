@@ -1,13 +1,13 @@
-html,
-main{
+/* standardise the document */
 
+html,
+main {
     overflow-x: hidden;
     height: 100%;
     width: 100%;
 }
 
-.dashboard,
-.add{
+.site-wrap {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -16,7 +16,19 @@ main{
     width: 100%;
 }
 
-.dashboard-day{
+/* reuseable components */
+
+/* header styles */
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* dashboard */
+
+.dashboard-day {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -25,7 +37,7 @@ main{
     width: 50%;
 }
 
-.dashboard-week{
+.dashboard-week {
     display: flex;
     justify-content: space-around;
     align-items: center;

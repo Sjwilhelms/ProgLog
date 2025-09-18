@@ -1,1 +1,2 @@
-templates/**/*.html
+templates/account/*.html
+calorie_tracker/templates/overview/dashboard.html
