@@ -20,19 +20,12 @@ main {
 
 /* header styles */
 
-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 /* dashboard */
 
 .dashboard-day {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
+    justify-content: space-around;
+    align-items: center;
     height: 50%;
     width: 50%;
 }
@@ -40,6 +33,14 @@ header {
 .dashboard-week {
     display: flex;
     justify-content: space-around;
+    align-items: center;
+    height: 50%;
+    width: 50%;
+}
+
+.dashboard-year {
+    display: flex;
+    justify-content: center;
     align-items: center;
     height: 50%;
     width: 50%;
