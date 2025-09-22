@@ -290,6 +290,11 @@ class FoodDetailView(DetailView):
     template_name = 'food/food_detail.html'
     context_object_name = 'food_logs'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = "Food Detail"
+        return context
+
     def get_queryset(self):
         return FoodLog.objects.filter(user=self.request.user)
 
@@ -339,6 +344,11 @@ class CardioDetailView(DetailView):
     model = CardioLog
     template_name = 'cardio/cardio_detail.html'
     context_object_name = 'cardio_logs'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = "Cardio Detail"
+        return context
 
     def get_queryset(self):
         return CardioLog.objects.filter(user=self.request.user)
@@ -430,7 +440,6 @@ class FoodUpdateView(UpdateView):
 class FoodDeleteView(DeleteView):
     model = FoodLog
     template_name = 'food/delete_food.html'
-    page_title = 'Delete Food'
     success_url = reverse_lazy('calorie_tracker:home')
 
     def get_context_data(self, **kwargs):

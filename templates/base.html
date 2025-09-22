@@ -2,7 +2,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Calorie Tracker - {{ page_title }}</title>
+        <title>{% if page_title %}
+        {{ page_title }} - Calorie Tracker
+    {% else %}
+        Calorie Tracker
+    {% endif %}</title>
         <link rel="stylesheet" href="{% static 'css/calorie_tracker.css' %}">
     </head>
     <body>
