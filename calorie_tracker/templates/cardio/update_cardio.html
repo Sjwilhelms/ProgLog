@@ -1,0 +1,12 @@
+{% extends "base.html" %} {% block content %}
+<div class="update">
+
+    <form method="post">
+        {% csrf_token %} {{ form.as_p }}
+        <button type="submit">Update</button>
+        <a href="{% url 'calorie_tracker:delete_cardio' object.pk %}">Delete</a>
+
+    </form>
+</div>
+
+{% endblock %}

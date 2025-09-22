@@ -80,6 +80,18 @@ def get_week_summary(user, start_date, days_count=7, reverse_order=False):
     }
 
 
+def get_calendar_week_summary(user, reference_date=None):
+    today = reference_date or timezone.now().date()
+    start_of_week = today - timedelta(days=today.weekday())  # Monday
+    return get_week_summary(user, start_of_week)
+
+
+def get_rolling_week_summary(user, reference_date=None):
+    today = reference_date or timezone.now().date()
+    start_of_rolling = today - timedelta(days=6)  # Last 7 days including today
+    return get_week_summary(user, start_of_rolling, reverse_order=False)
+
+
 def get_year_summary(user, year=None):
     """
     Generate summary data for all 12 months in a year
@@ -124,15 +136,3 @@ def get_year_summary(user, year=None):
             'net_year': sum(net_monthly),
         }
     }
-
-
-def get_calendar_week_summary(user, reference_date=None):
-    today = reference_date or timezone.now().date()
-    start_of_week = today - timedelta(days=today.weekday())  # Monday
-    return get_week_summary(user, start_of_week)
-
-
-def get_rolling_week_summary(user, reference_date=None):
-    today = reference_date or timezone.now().date()
-    start_of_rolling = today - timedelta(days=6)  # Last 7 days including today
-    return get_week_summary(user, start_of_rolling, reverse_order=False)

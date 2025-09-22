@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Cardio Detail</h2>
 <p><strong>Activity:</strong> {{ cardio_logs.cardio_name }}</p>
 <p><strong>Duration:</strong> {{ cardio_logs.duration }} minutes</p>
 <p><strong>Calories Burned:</strong> {{ cardio_logs.calories_out }}</p>
 <p><strong>Date:</strong> {{ cardio_logs.timestamp }}</p>
 <p><strong>Description:</strong> {{ cardio_logs.cardio_desc }}</p>
+<a href="{% url 'calorie_tracker:update_cardio' object.pk %}">Update</a> |
+<a href="{% url 'calorie_tracker:delete_cardio' object.pk %}">Delete</a>
 {% endblock %}

@@ -6,4 +6,6 @@
 <p><strong>Calories:</strong> {{ food_logs.calories_in }}</p>
 <p><strong>Date:</strong> {{ food_logs.timestamp }}</p>
 <p><strong>Description:</strong> {{ food_logs.meal_desc }}</p>
+<a href="{% url 'calorie_tracker:update_food' object.pk %}">Update</a> |
+<a href="{% url 'calorie_tracker:delete_food' object.pk %}">Delete</a>
 {% endblock %}

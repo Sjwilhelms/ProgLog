@@ -10,38 +10,21 @@ main {
 .site-wrap {
     display: flex;
     flex-direction: column;
+}
+
+.header{
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
-    width: 100%;
 }
 
-/* reuseable components */
+/* classes */
 
-/* header styles */
-
-/* dashboard */
-
-.dashboard-day {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 50%;
-    width: 50%;
+.hidden{
+    display: none;
 }
 
-.dashboard-week {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 50%;
-    width: 50%;
-}
-
-.dashboard-year {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50%;
-    width: 50%;
+.column{
+    width: 30%;
 }

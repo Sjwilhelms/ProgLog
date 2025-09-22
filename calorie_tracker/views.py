@@ -1,9 +1,11 @@
 from django.db.models import Sum
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import (
     CreateView,
+    UpdateView,
+    DeleteView,
     ListView,
     DetailView,
     TemplateView)
@@ -54,8 +56,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             self.request.user)
         context['cardio_logs_rolling_week'] = CardioLog.logs_for_rolling_week(
             self.request.user)
-        context['cardio_logs_calendar_week'] = CardioLog.logs_for_calendar_week(
-            self.request.user)
+        context['cardio_logs_calendar_week'] = (
+            CardioLog
+            .logs_for_calendar_week(self.request.user))
 
         # net calories
         context['net_calorie_day'] = net_calorie_day(
@@ -160,6 +163,7 @@ def calendar_week_summary(request):
         "food_totals": food_totals,
         "exercise_totals": exercise_totals,
         "net_calories": net_calories,
+        "calendar_title": "Weekly Summary",
     }
 
     return render(request, "overview/calendar_week_summary.html", context)
@@ -218,6 +222,7 @@ def rolling_week_summary(request):
         "food_totals": food_totals,
         "exercise_totals": exercise_totals,
         "net_calories": net_calories,
+        "rolling_title": "Rolling Summary",
     }
 
     return render(request, "overview/rolling_week_summary.html", context)
@@ -261,6 +266,7 @@ def yearly_summary(request, year=None):
     net_year = net_calorie_year(user, year)
 
     context = {
+        "monthly_title": "Monthly Summary",
         'table_data': {
             'months': months,
             'food_monthly': food_monthly,
@@ -383,6 +389,7 @@ class FoodCreateView(CreateView):
     model = FoodLog
     form_class = FoodForm
     template_name = 'food/add_food.html'
+
     success_url = reverse_lazy('calorie_tracker:home')
 
     def get_context_data(self, **kwargs):
@@ -396,11 +403,50 @@ class FoodCreateView(CreateView):
         return super().form_valid(form)
 
 
+class FoodUpdateView(UpdateView):
+    model = FoodLog
+    form_class = FoodForm
+    template_name = 'food/add_food.html'
+    success_url = reverse_lazy('calorie_tracker:home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = "Update Meal"
+        return context
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        messages.success(self.request, "Food Log updated successfully!")
+        return super().form_valid(form)
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            self.model,
+            pk=self.kwargs['pk'],
+            user=self.request.user
+        )
+
+
+class FoodDeleteView(DeleteView):
+    model = FoodLog
+    template_name = 'food/delete_food.html'
+    page_title = 'Delete Food'
+    success_url = reverse_lazy('calorie_tracker:home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = "Delete Food"
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, "Food log deleted successfully!")
+        return super().delete(request, *args, **kwargs)
+
+
 class CardioCreateView(CreateView):
     model = CardioLog
     form_class = CardioForm
     template_name = 'cardio/add_cardio.html'
-    page_title = 'Log Cardio    '
     success_url = reverse_lazy('calorie_tracker:home')
 
     def get_context_data(self, **kwargs):
@@ -412,3 +458,42 @@ class CardioCreateView(CreateView):
         form.instance.user = self.request.user
         messages.success(self.request, "Cardio Log added successfully!")
         return super().form_valid(form)
+
+
+class CardioUpdateView(UpdateView):
+    model = CardioLog
+    form_class = CardioForm
+    template_name = 'cardio/add_cardio.html'
+    success_url = reverse_lazy('calorie_tracker:home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = "Update Cardio"
+        return context
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        messages.success(self.request, "Food Log updated successfully!")
+        return super().form_valid(form)
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            self.model,
+            pk=self.kwargs['pk'],
+            user=self.request.user
+        )
+
+
+class CardioDeleteView(DeleteView):
+    model = CardioLog
+    template_name = 'cardio/delete_cardio.html'
+    success_url = reverse_lazy('calorie_tracker:home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = "Delete Cardio"
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, "Cardio log deleted successfully!")
+        return super().delete(request, *args, **kwargs)

@@ -11,7 +11,15 @@
     <tr>
         <td>{{ meal|title }}</td>
         {% for val in values %}
-        <td>{{ val }}</td>
+        {% if meal.pk %}
+
+            <td><a href="{% url 'calorie_tracker:food_detail' object.pk %}">{{ val }}</a></td>
+
+        {% else %}
+
+            <td>{{ val }}</td>
+
+        {% endif %}
         {% endfor %}
     </tr>
     {% endfor %}
