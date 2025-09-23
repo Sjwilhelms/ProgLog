@@ -1,7 +1,23 @@
 from django.contrib import admin
-from .models import FoodLog, CardioLog
+from .models import UserProfile, FoodLog, CardioLog
 
 # Register your models here.
+
+
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = [
+        'user', 'weight_goal', 'cardio_goal', 'height', 'weight'
+    ]
+
+    list_filter = ['user', 'timestamp', 'height', 'weight']
+    search_fields = ['user', 'user__username', 'height', 'weight']
+    readonly_fields = ['timestamp']
+    ordering = ['-timestamp']
+    date_hierarchy = 'timestamp'
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related('user')
 
 
 @admin.register(FoodLog)

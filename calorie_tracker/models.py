@@ -1,12 +1,49 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 from django.core.validators import MinValueValidator
 from django.db.models import Sum
+from django.dispatch import receiver
 from django.utils import timezone
 from datetime import timedelta, date
 from calendar import monthrange
 
 # Create your models here.
+
+
+class UserProfile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(default=timezone.now)
+
+    height = models.DecimalField(
+        max_digits=5, decimal_places=2, null=True, blank=True)
+    weight = models.DecimalField(
+        max_digits=5, decimal_places=2, null=True, blank=True)
+    weight_goal = models.DecimalField(
+        max_digits=5, decimal_places=2, null=True, blank=True)
+    cardio_goal = models.IntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s Profile"
+
+    @property
+    def bmi(self):
+        if self.height and self.weight:
+            height_m = float(self.height) / 100
+            return round(float(self.weight) / (height_m ** 2), 1)
+
+    @property
+    def weight_difference(self):
+        if self.weight and self.weight_goal:
+            return float(self.weight) - float(self.weight_goal)
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+    else:
+        UserProfile.objects.get_or_create(user=instance)
 
 
 class BaseLog(models.Model):

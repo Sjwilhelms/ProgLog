@@ -29,8 +29,6 @@ from .tables import (
 
 
 # overview/dashboard view
-# the Dashboard View
-
 
 class DashboardView(LoginRequiredMixin, TemplateView):
 
@@ -281,6 +279,10 @@ def yearly_summary(request, year=None):
     }
 
     return render(request, 'overview/yearly_summary.html', context)
+
+
+# user profile view
+
 
 # List Views for viewing food logs
 
