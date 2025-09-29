@@ -1,3 +1,102 @@
+
+/* root variables */
+
+
+:root {
+    /* Primary Brand Colors */
+    --color-primary: #3b82f6;
+    --color-primary-light: #60a5fa;
+    --color-primary-dark: #2563eb;
+
+    /* Secondary Brand Colors */
+    --color-secondary: #8b5cf6;
+    --color-secondary-light: #a78bfa;
+    --color-secondary-dark: #7c3aed;
+
+    /* Accent Colors */
+    --color-accent: #f59e0b;
+    --color-accent-light: #fbbf24;
+    --color-accent-dark: #d97706;
+
+    /* Neutral/Gray Scale */
+    --color-gray-50: #f9fafb;
+    --color-gray-100: #f3f4f6;
+    --color-gray-200: #e5e7eb;
+    --color-gray-300: #d1d5db;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-gray-600: #4b5563;
+    --color-gray-700: #374151;
+    --color-gray-800: #1f2937;
+    --color-gray-900: #111827;
+
+    /* Semantic Colors - Success */
+    --color-success: #10b981;
+    --color-success-light: #34d399;
+    --color-success-dark: #059669;
+
+    /* Semantic Colors - Warning */
+    --color-warning: #f59e0b;
+    --color-warning-light: #fbbf24;
+    --color-warning-dark: #d97706;
+
+    /* Semantic Colors - Error/Danger */
+    --color-error: #ef4444;
+    --color-error-light: #f87171;
+    --color-error-dark: #dc2626;
+
+    /* Semantic Colors - Info */
+    --color-info: #3b82f6;
+    --color-info-light: #60a5fa;
+    --color-info-dark: #2563eb;
+
+    /* Background Colors */
+    --color-bg-primary: #ffffff;
+    --color-bg-secondary: #f9fafb;
+    --color-bg-tertiary: #f3f4f6;
+
+    /* Text Colors */
+    --color-text-primary: #111827;
+    --color-text-secondary: #6b7280;
+    --color-text-tertiary: #9ca3af;
+    --color-text-inverse: #ffffff;
+
+    /* Border Colors */
+    --color-border-light: #e5e7eb;
+    --color-border-medium: #d1d5db;
+    --color-border-dark: #9ca3af;
+    
+    /* Shadow Colors (with opacity) */
+    --color-shadow: rgba(0, 0, 0, 0.1);
+    --color-shadow-medium: rgba(0, 0, 0, 0.15);
+    --color-shadow-strong: rgba(0, 0, 0, 0.25);
+}
+
+/* Dark Mode Variables */
+@media (prefers-color-scheme: dark) {
+:root {
+    /* Background Colors */
+    --color-bg-primary: #111827;
+    --color-bg-secondary: #1f2937;
+    --color-bg-tertiary: #374151;
+    
+    /* Text Colors */
+    --color-text-primary: #f9fafb;
+    --color-text-secondary: #d1d5db;
+    --color-text-tertiary: #9ca3af;
+    --color-text-inverse: #111827;
+    
+    /* Border Colors */
+    --color-border-light: #374151;
+    --color-border-medium: #4b5563;
+    --color-border-dark: #6b7280;
+    
+    /* Shadow Colors */
+    --color-shadow: rgba(0, 0, 0, 0.3);
+    --color-shadow-medium: rgba(0, 0, 0, 0.4);
+    --color-shadow-strong: rgba(0, 0, 0, 0.6);
+}
+
 /* standardise the document */
 
 html,
@@ -19,6 +118,11 @@ main {
     align-items: center;
 }
 
+a{
+    text-decoration: none;
+}
+
+
 /* classes */
 
 .hidden{
@@ -27,4 +131,31 @@ main {
 
 .column{
     width: 30%;
+}
+
+/* tables */
+
+table {
+  width: 100%;
+  border-collapse: collapse; /* removes double borders */
+  font-family: Arial, sans-serif;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
 }
