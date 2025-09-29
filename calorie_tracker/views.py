@@ -41,6 +41,20 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             # set page title
             context['page_title'] = 'Dashboard'
 
+            # user goals
+
+            user_profile, created = UserProfile.objects.get_or_create(
+                user=self.request.user
+            )
+
+            context['weight'] = user_profile.weight
+            context['height'] = user_profile.height
+            context['weight_goal'] = user_profile.weight_goal
+            context['cardio_goal'] = user_profile.cardio_goal
+            context['weight_difference'] = user_profile.weight_difference
+            context['bmi'] = user_profile.bmi
+            context['user_profile'] = user_profile
+
         # food logs
         context['food_logs_day'] = FoodLog.logs_for_day(
             self.request.user)
@@ -111,7 +125,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         return context
 
 
-# fucntional view for viewing calendar week summary table
+# fucntional view for viewing summary tables
 
 def calendar_week_summary(request):
     user = request.user
@@ -298,7 +312,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
             user=self.request.user)
         return profile
 
-# List Views for viewing food logs
+# Views for viewing food logs
 
 
 class FoodDetailView(DetailView):
@@ -353,7 +367,7 @@ class FoodRollingWeekView(ListView):
             self.request.user)
         return context
 
-# List Views for viewing cardio logs
+# Views for viewing cardio logs
 
 
 class CardioDetailView(DetailView):
@@ -408,7 +422,7 @@ class CardioRollingWeekView(ListView):
             self.request.user)
         return context
 
-# Create Views for adding logs with forms
+# Create/update/delete Views for adding logs with forms
 
 
 class FoodCreateView(CreateView):
@@ -524,7 +538,7 @@ class CardioDeleteView(DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
-# CreateView for updating user goals
+# Updateview user goals
 
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):

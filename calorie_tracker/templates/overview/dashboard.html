@@ -1,8 +1,26 @@
 {% extends "base.html" %} {% block content %}
 <div class="dashboard">
-    <div class="dashboard-day">
 
+    <div class="dashboard-goals">
+        <p>Weight: {{ user_profile.weight }} kg</p>
+        <p>Height: {{ user_profile.height }} cm</p>
+        <p>Weight Goal: {{ user_profile.weight_goal }} kg</p>
+        <p>BMI: {{ user_profile.bmi }}</p>
+        <p>Weight to Lose/Gain: {{ user_profile.weight_difference }} kg</p>
+
+        <!-- With conditional checks -->
+        {% if user_profile.weight %}
+            <p>Current Weight: {{ user_profile.weight }} kg</p>
+        {% else %}
+            <p><a href="{% url 'calorie_tracker:profile_update' %}">Set your weight</a></p>
+        {% endif %}
+    </div>
+
+    <div class="dashboard-day">
         <div class="column">
+            <h3>Meals</h3>
+
+            {% if food_logs_day %}
             <table>
                 <thead>
                     <tr>
@@ -30,9 +48,13 @@
                     {% endfor %}
                 </tbody>
             </table>
+            {% else %}
+            <p>No food logged today</p>
+            {% endif %}
         </div>
         <div class="dashboard-day-burn">
-            <h3></h3>
+            <h3>Cardio</h3>
+            {% if cardio_logs_day %}
             <table>
                 <thead>
                     <tr>
@@ -60,6 +82,9 @@
                     {% endfor %}
                 </tbody>
             </table>
+            {% else %}
+            <p>No cardio logged today</p>
+            {% endif %}
         </div>
 
         <div class="dashboard-day-net">
