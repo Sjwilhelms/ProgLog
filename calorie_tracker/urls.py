@@ -2,6 +2,8 @@ from django.urls import path
 from . import views
 from .views import (
     DashboardView,
+    ProfileDetailView,
+    ProfileUpdateView,
     FoodDetailView,
     FoodDayView,
     FoodCalendarWeekView,
@@ -31,6 +33,11 @@ urlpatterns = [
         'rolling-week-summary/',
         views.rolling_week_summary,
         name='rolling_week_summary'),
+
+    # User profile URLS
+
+    path('profile/', ProfileDetailView.as_view(), name='profile_detail'),
+    path('profile/update', ProfileUpdateView.as_view(), name='profile_update'),
 
     # Food URLS
 

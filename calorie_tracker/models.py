@@ -12,7 +12,8 @@ from calendar import monthrange
 
 
 class UserProfile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name='profile')
     timestamp = models.DateTimeField(default=timezone.now)
 
     height = models.DecimalField(

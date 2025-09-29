@@ -11,19 +11,23 @@
     </head>
     <body>
         <header class="header">
-            <h1>{{ page_title }}</h1>
+            {% if page_title %}
+                <h1>{{ page_title }}</h1>
+            {% else %}
+                <h1>Calorie Tracker</h1>
+            {% endif %}
             <nav>
-                <a href="{% url 'calorie_tracker:home' %}">Dashboard</a> |
-                <!-- <a href="{% url 'calorie_tracker:calendar_week_summary' %}">Weekly Summary</a> |
-                <a href="{% url 'calorie_tracker:rolling_week_summary' %}">Weekly Summary</a> | -->
-                <a href="{% url 'calorie_tracker:add_food' %}">Add Food</a> |
-                <a href="{% url 'calorie_tracker:add_cardio' %}">Add Cardio</a> |
-                <!-- <a href="{% url 'calorie_tracker:food_day' %}">Food Logs</a> |
-                <a href="{% url 'calorie_tracker:food_calendar_week' %}">Food Logs</a> |
-                <a href="{% url 'calorie_tracker:food_rolling_week' %}">Food Logs</a> |
-                <a href="{% url 'calorie_tracker:cardio_day' %}">Cardio Logs</a> |
-                <a href="{% url 'calorie_tracker:cardio_calendar_week' %}">Cardio Logs</a> |
-                <a href="{% url 'calorie_tracker:cardio_rolling_week' %}">Cardio Logs</a> | -->
+                {% if user.is_authenticated %}
+                    <a href="{% url 'calorie_tracker:home' %}">Dashboard</a> |
+                    <a href="{% url 'calorie_tracker:add_food' %}">Add Food</a> |
+                    <a href="{% url 'calorie_tracker:add_cardio' %}">Add Cardio</a> |
+                    <a href="{% url 'calorie_tracker:profile_detail' %}">Profile</a> |
+                    <a href="{% url 'calorie_tracker:profile_update' %}">Update Goals</a> |
+                    <a href="{% url 'account_logout' %}">Logout ({{ user.username }})</a>
+                {% else %}
+                    <a href="{% url 'account_login' %}">Login</a> |
+                    <a href="{% url 'account_signup' %}">Register</a>
+                {% endif %}
             </nav>
             <hr />
         </header>

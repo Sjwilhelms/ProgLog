@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<p>Height: {{ user.profile.height }} cm</p>
+<p>Current Weight: {{ user.profile.weight }} kg</p>
+<p>Goal Weight: {{ user.profile.weight_goal }} kg</p>
+
+{% if user.profile.bmi %}
+    <p>BMI: {{ user.profile.bmi }}</p>
+{% endif %}
+
+{% if user.profile.weight_difference %}
+    {% if user.profile.weight_difference > 0 %}
+        <p>Need to lose: {{ user.profile.weight_difference }} kg</p>
+    {% else %}
+        <p>Need to gain: {{ user.profile.weight_difference|floatformat:1|slice:"1:" }} kg</p>
+    {% endif %}
+{% endif %}
+
+{% endblock %}

@@ -1,5 +1,17 @@
-from .models import FoodLog, CardioLog
+from .models import UserProfile, FoodLog, CardioLog
 from django import forms
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = [
+            "height",
+            "weight",
+            "weight_goal",
+            "cardio_goal",
+        ]
+
 
 # form for user submitted Meal/Snack
 

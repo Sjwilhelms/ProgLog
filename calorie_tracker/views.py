@@ -12,8 +12,8 @@ from django.views.generic import (
 from django.urls import reverse_lazy
 from django.utils import timezone
 from datetime import timedelta
-from .models import FoodLog, CardioLog
-from .forms import FoodForm, CardioForm
+from .models import UserProfile, FoodLog, CardioLog
+from .forms import ProfileForm, FoodForm, CardioForm
 from .services import (
     net_calorie_day,
     net_calorie_rolling_week,
@@ -283,6 +283,20 @@ def yearly_summary(request, year=None):
 
 # user profile view
 
+class ProfileDetailView(LoginRequiredMixin, DetailView):
+    model = UserProfile
+    template_name = 'profile/profile_detail.html'
+    context_object_name = 'user_profile'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = "User Profile"
+        return context
+
+    def get_object(self, queryset=None):
+        profile, created = UserProfile.objects.get_or_create(
+            user=self.request.user)
+        return profile
 
 # List Views for viewing food logs
 
@@ -508,3 +522,32 @@ class CardioDeleteView(DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(request, "Cardio log deleted successfully!")
         return super().delete(request, *args, **kwargs)
+
+
+# CreateView for updating user goals
+
+
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = UserProfile
+    form_class = ProfileForm
+    template_name = 'profile/add_goals.html'
+    success_url = reverse_lazy('calorie_tracker:profile_detail')
+
+    def get_object(self, queryset=None):
+        # Get or create the profile for the logged-in user
+        profile, created = UserProfile.objects.get_or_create(
+            user=self.request.user)
+        return profile
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Change title based on whether profile has data
+        if self.object and (self.object.height or self.object.weight):
+            context['page_title'] = "Update Goals"
+        else:
+            context['page_title'] = "Log Goals"
+        return context
+
+    def form_valid(self, form):
+        messages.success(self.request, "Goal info saved successfully!")
+        return super().form_valid(form)
