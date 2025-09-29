@@ -22,6 +22,7 @@ from .services import (
     net_calorie_year
 )
 from .tables import (
+    get_day_summary,
     get_calendar_week_summary,
     get_rolling_week_summary,
     get_year_summary
@@ -80,6 +81,21 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['net_calorie_calendar_week'] = net_calorie_calendar_week(
             self.request.user)
 
+        # daily summary data
+
+        daily_data = get_day_summary(self.request.user)
+        context.update({
+            'daily': {
+                "date": daily_data["date"],
+                "table_data": daily_data["table_data"],
+                "food_total": daily_data["food_total"],
+                "exercise_total": daily_data["exercise_total"],
+                "net_calories": daily_data["net_calories"],
+
+                "daily_title": "Daily Summary"
+            }
+        })
+
         # Rolling week summary data
         rolling_data = get_rolling_week_summary(self.request.user)
         context.update({
@@ -126,6 +142,22 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
 
 # fucntional view for viewing summary tables
+
+
+def daily_summary(request):
+    user = request.user
+    summary = get_day_summary(user)
+
+    context = {
+        "date": summary["date"],
+        "table_data": summary["table_data"],
+        "food_total": summary["food_total"],
+        "exercise_total": summary["exercise_total"],
+        "net_calories": summary["net_calories"],
+        "daily_title": "Daily Summary",
+    }
+    return render(request, "overview/daily_summary.html", context)
+
 
 def calendar_week_summary(request):
     user = request.user

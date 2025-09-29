@@ -11,6 +11,43 @@ MEAL_TYPES = [
 ]
 
 
+def get_day_summary(user, day=None):
+    day = day or timezone.now().date()
+
+    meal_types = [
+        FoodLog.BREAKFAST,
+        FoodLog.LUNCH,
+        FoodLog.DINNER,
+        FoodLog.SNACK
+    ]
+
+    table_data = {}
+
+    for meal in meal_types:
+        total = (
+            FoodLog.objects.filter(
+                user=user,
+                meal_type=meal,
+                timestamp__date=day
+            )
+            .aggregate(Sum('calories_in'))['calories_in__sum']
+            or 0
+        )
+        table_data[meal] = total
+
+    food_total = FoodLog.total_food_day(user, date=day)
+    exercise_total = CardioLog.total_burn_day(user, date=day)
+    net_calories = food_total - exercise_total
+
+    return {
+        "date": day,
+        "table_data": table_data,
+        "food_total": food_total,
+        "exercise_total": exercise_total,
+        "net_calories": net_calories
+    }
+
+
 def get_week_summary(user, start_date, days_count=7, reverse_order=False):
     """
     Generate summary data for a sequence of days starting from start_date.

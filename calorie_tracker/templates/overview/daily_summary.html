@@ -1,0 +1,45 @@
+<table>
+    <thead>
+        <tr>
+            <th>Meal</th>
+            <th>Calories</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Food entries -->
+        {% for meal, calories in table_data.items %}
+        <tr>
+            <td>{{ meal|title }}</td>
+            <td>{{ calories|default:0 }}</td>
+        </tr>
+        {% endfor %}
+        
+        <!-- Exercise entries -->
+        {% if cardio_logs %}
+        <tr>
+            <th>Cardio</th>
+            <th>Burn</th>
+        </tr>
+        {% for log in cardio_logs %}
+        <tr class="exercise-row">
+            <td>{{ log.cardio_name }}</td>
+            <td>-{{ log.calories_out }}</td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+        
+        <!-- Totals -->
+        <tr class="totals">
+            <th>Total Food</th>
+            <td>{{ food_total|default:0 }}</td>
+        </tr>
+        <tr class="totals">
+            <th>Total Exercise</th>
+            <td>{{ exercise_total|default:0 }}</td>
+        </tr>
+        <tr class="totals net">
+            <th>Net Calories</th>
+            <td>{{ net_calories|default:0 }}</td>
+        </tr>
+    </tbody>
+</table>
