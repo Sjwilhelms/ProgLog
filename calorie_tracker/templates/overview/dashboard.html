@@ -1,22 +1,17 @@
 {% extends "base.html" %} {% block content %}
 <div class="dashboard">
-
     <div class="dashboard-goals">
-        <p>Weight: {{ user_profile.weight }} kg</p>
-        <p>Height: {{ user_profile.height }} cm</p>
-        <p>Weight Goal: {{ user_profile.weight_goal }} kg</p>
+        {% if user_profile %}
         <p>BMI: {{ user_profile.bmi }}</p>
-        <p>Weight to Lose/Gain: {{ user_profile.weight_difference }} kg</p>
-
-        <!-- With conditional checks -->
-        {% if user_profile.weight %}
-            <p>Current Weight: {{ user_profile.weight }} kg</p>
-        {% else %}
-            <p><a href="{% url 'calorie_tracker:profile_update' %}">Set your weight</a></p>
+        <p>Height: {{ user_profile.height }} cm</p>
+        <p>Weight: {{ user_profile.weight }} kg</p>
+        <p>Weight Goal: {{ user_profile.weight_goal }} kg</p>
+        <p>Weight to Lose/Gain: {{ user_profile.weight_difference }} kg</p>        {% else %}
+        <p><a href="{% url 'calorie_tracker:profile_update' %}">Set your weight</a></p>
         {% endif %}
     </div>
+<div class="dashboard-top-row">
 
-    <div class="column">
         <div class="dashboard-day">
 
             <h3>Today</h3>
@@ -24,9 +19,6 @@
             {% include "overview/daily_summary.html" with daily_title="Today" date=daily.date table_data=daily.table_data food_total=daily.food_total exercise_total=daily.exercise_total net_calories=daily.net_calories cardio_logs=cardio_logs_day %}
 
         </div>
-    </div>
-
-    <div class="column">
         <div class="dashboard-rolling">
 
             <h3>Last 7 Days</h3>
@@ -40,6 +32,13 @@
             {% include "overview/calendar_week_summary.html" with week_type="This Week (Calendar Week)" days=calendar.days table_data=calendar.table_data food_totals=calendar.food_totals exercise_totals=calendar.exercise_totals net_calories=calendar.net_calories %}
 
         </div>
+    </div>
+</div>
+    
+
+    <div class="column">
+        
+        
         <div class="dashboard-year">
         <div class="dashboard-months">
             <h3>Annual Summary</h3>
